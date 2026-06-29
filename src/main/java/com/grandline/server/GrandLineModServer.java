@@ -39,6 +39,11 @@ public class GrandLineModServer implements DedicatedServerModInitializer {
             // - Performance monitoring
             // - Admin utilities
             
+            // Phase 3: Fire server init event
+            com.grandline.core.event.EventBus.post(
+                new com.grandline.core.event.events.ModInitEvent(
+                    com.grandline.core.event.events.ModInitEvent.InitPhase.SERVER));
+            
             initialized = true;
             
             long duration = System.currentTimeMillis() - startTime;

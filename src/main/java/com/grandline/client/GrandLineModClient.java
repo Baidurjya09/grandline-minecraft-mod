@@ -40,6 +40,11 @@ public class GrandLineModClient implements ClientModInitializer {
             // - Particle renderers
             // - Model providers
             
+            // Phase 3: Fire client init event
+            com.grandline.core.event.EventBus.post(
+                new com.grandline.core.event.events.ModInitEvent(
+                    com.grandline.core.event.events.ModInitEvent.InitPhase.CLIENT));
+            
             initialized = true;
             
             long duration = System.currentTimeMillis() - startTime;

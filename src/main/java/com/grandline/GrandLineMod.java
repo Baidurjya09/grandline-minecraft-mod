@@ -57,11 +57,26 @@ public class GrandLineMod implements ModInitializer {
             networkManager = new NetworkManager();
             networkManager.registerPackets();
             
-            // Phase 4: Mark as initialized
+            // Phase 4: Event System (Phase 1)
+            LOGGER.info("Initializing event system...");
+            com.grandline.core.event.EventBus.register(this);
+            
+            // Phase 5: Command System (Phase 1)
+            LOGGER.info("Registering command system...");
+            com.grandline.core.command.CommandRegistrar.register();
+            
+            // Phase 6: Fire initialization event
+            com.grandline.core.event.EventBus.post(
+                new com.grandline.core.event.events.ModInitEvent(
+                    com.grandline.core.event.events.ModInitEvent.InitPhase.COMMON));
+            
+            // Phase 7: Mark as initialized
             initialized = true;
             
             long duration = System.currentTimeMillis() - startTime;
             LOGGER.info("{} initialized successfully in {}ms", MOD_NAME, duration);
+            LOGGER.info("✓ Phase 0: Foundation Complete");
+            LOGGER.info("✓ Phase 1: Core Framework Active");
             
         } catch (Exception e) {
             LOGGER.error("Failed to initialize {}", MOD_NAME, e);
