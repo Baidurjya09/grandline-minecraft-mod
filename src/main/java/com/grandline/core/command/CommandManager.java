@@ -40,6 +40,10 @@ public class GrandLineCommandManager {
         registerCommand(new DebugCommand());
         registerCommand(new VersionCommand());
         
+        // Phase 2: Player data commands
+        registerCommand(new StatsCommand());
+        registerCommand(new XpCommand());
+        
         // Register with Brigadier
         registerBrigadierCommands(dispatcher);
         

@@ -5,6 +5,8 @@ import com.grandline.core.network.NetworkManager;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.minecraft.server.MinecraftServer;
 
 /**
  * Dedicated server entry point for the Grand Line mod.
@@ -17,6 +19,7 @@ import net.fabricmc.api.Environment;
 public class GrandLineModServer implements DedicatedServerModInitializer {
     
     private static boolean initialized = false;
+    private static MinecraftServer server;
     
     @Override
     public void onInitializeServer() {
@@ -27,6 +30,28 @@ public class GrandLineModServer implements DedicatedServerModInitializer {
         
         long startTime = System.currentTimeMillis();
         GrandLineMod.LOGGER.info("Initializing dedicated server systems...");
+        
+        // Register server lifecycle events
+        ServerLifecycleEvents.SERVER_STARTING.register(srv -> {
+            server = srv;
+            GrandLineMod.LOGGER.info("Server starting, initializing player data system...");
+        });
+        
+        ServerLifecycleEvents.SERVER_STARTED.register(srv -> {
+            // Initialize player data when server is fully started
+            if (server != null) {
+                com.grandline.data.PlayerDataManager.initialize(server);
+            }
+        });
+        
+        ServerLifecycleEvents.SERVER_STOPPING.register(srv -> {
+            GrandLineMod.LOGGER.info("Server stopping, saving all player data...");
+            try {
+                com.grandline.data.PlayerDataManager.getInstance().saveAll();
+            } catch (Exception e) {
+                GrandLineMod.LOGGER.error("Error saving player data on shutdown", e);
+            }
+        });
         
         try {
             // Phase 1: Register server packet handlers
@@ -40,6 +65,11 @@ public class GrandLineModServer implements DedicatedServerModInitializer {
             // - Admin utilities
             
             // Phase 3: Fire server init event
+            com.grandline.core.event.EventBus.post(
+                new com.grandline.core.event.events.ModInitEvent(
+                    com.grandline.core.event.events.ModInitEvent.InitPhase.SERVER));
+            
+            initialized = true;
             com.grandline.core.event.EventBus.post(
                 new com.grandline.core.event.events.ModInitEvent(
                     com.grandline.core.event.events.ModInitEvent.InitPhase.SERVER));

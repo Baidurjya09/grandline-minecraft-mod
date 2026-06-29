@@ -16,7 +16,11 @@ public class Permission {
     public static final String ADMIN = "grandline.admin";
     public static final String ADMIN_ALL = "grandline.admin.*";
     
-    // Future permissions will be added here
+    // Player data commands (Phase 2)
+    public static final String COMMAND_STATS = "grandline.command.stats";
+    public static final String COMMAND_XP = "grandline.command.xp";
+    public static final String COMMAND_LEVEL = "grandline.command.level";
+    public static final String COMMAND_PLAYERDATA = "grandline.command.playerdata";
     
     private Permission() {
         throw new AssertionError("Utility class should not be instantiated");

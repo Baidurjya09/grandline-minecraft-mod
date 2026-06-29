@@ -20,6 +20,15 @@ public class GrandLineConfig {
     // Debug Settings
     public DebugSettings debug = new DebugSettings();
     
+    // Player Data Settings (Phase 2)
+    public PlayerDataSettings playerData = new PlayerDataSettings();
+    
+    // Leveling Settings (Phase 2)
+    public LevelingSettings leveling = new LevelingSettings();
+    
+    // Statistics Settings (Phase 2)
+    public StatisticsSettings statistics = new StatisticsSettings();
+    
     /**
      * Validates the configuration values.
      * 
@@ -29,7 +38,10 @@ public class GrandLineConfig {
         return general.validate() 
             && network.validate() 
             && performance.validate() 
-            && debug.validate();
+            && debug.validate()
+            && playerData.validate()
+            && leveling.validate()
+            && statistics.validate();
     }
     
     /**
@@ -47,6 +59,15 @@ public class GrandLineConfig {
         }
         if (!debug.validate()) {
             debug = new DebugSettings();
+        }
+        if (!playerData.validate()) {
+            playerData = new PlayerDataSettings();
+        }
+        if (!leveling.validate()) {
+            leveling = new LevelingSettings();
+        }
+        if (!statistics.validate()) {
+            statistics = new StatisticsSettings();
         }
     }
     
@@ -93,3 +114,42 @@ public class GrandLineConfig {
         }
     }
 }
+
+    
+    public static class PlayerDataSettings {
+        public int autoSaveIntervalSeconds = 300;
+        public boolean backupOnSave = true;
+        public int maxBackups = 3;
+        public boolean syncOnStatChange = true;
+        
+        public boolean validate() {
+            return autoSaveIntervalSeconds > 0 
+                && maxBackups >= 0;
+        }
+    }
+    
+    public static class LevelingSettings {
+        public String xpCurveType = "exponential";
+        public int baseXp = 100;
+        public double xpMultiplier = 1.15;
+        public int skillPointsPerLevel = 1;
+        public int maxLevel = 100;
+        
+        public boolean validate() {
+            return baseXp > 0 
+                && xpMultiplier > 0 
+                && skillPointsPerLevel >= 0
+                && maxLevel > 0 
+                && maxLevel <= 1000;
+        }
+    }
+    
+    public static class StatisticsSettings {
+        public boolean trackPlaytime = true;
+        public boolean trackMovement = true;
+        public boolean trackCombat = true;
+        
+        public boolean validate() {
+            return true;
+        }
+    }

@@ -29,6 +29,7 @@ public class GrandLineMod implements ModInitializer {
     private static NetworkManager networkManager;
     
     private boolean initialized = false;
+    private MinecraftServer server; // For Phase 2+
     
     @Override
     public void onInitialize() {
@@ -77,6 +78,7 @@ public class GrandLineMod implements ModInitializer {
             LOGGER.info("{} initialized successfully in {}ms", MOD_NAME, duration);
             LOGGER.info("✓ Phase 0: Foundation Complete");
             LOGGER.info("✓ Phase 1: Core Framework Active");
+            LOGGER.info("✓ Phase 2: Player Data System Active");
             
         } catch (Exception e) {
             LOGGER.error("Failed to initialize {}", MOD_NAME, e);
