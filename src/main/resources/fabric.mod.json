@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "A multiplayer pirate adventure mod with custom abilities, fruits, and naval combat.",
+  "authors": [
+    "Grand Line Development Team"
+  ],
+  "contact": {
+    "homepage": "https://github.com/grandline/grandline",
+    "sources": "https://github.com/grandline/grandline"
+  },
+  "license": "MIT",
+  "icon": "assets/grandline/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.grandline.GrandLineMod"
+    ],
+    "client": [
+      "com.grandline.client.GrandLineModClient"
+    ],
+    "server": [
+      "com.grandline.server.GrandLineModServer"
+    ]
+  },
+  "mixins": [
+    "grandline.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=${java_version}",
+    "fabric-api": "*"
+  },
+  "suggests": {
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/grandline"
+      }
+    }
+  }
+}
