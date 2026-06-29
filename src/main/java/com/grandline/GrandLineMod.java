@@ -62,16 +62,20 @@ public class GrandLineMod implements ModInitializer {
             LOGGER.info("Initializing event system...");
             com.grandline.core.event.EventBus.register(this);
             
-            // Phase 5: Command System (Phase 1)
+            // Phase 5: Ability System (Phase 3)
+            LOGGER.info("Initializing ability system...");
+            com.grandline.ability.AbilityRegistry.initialize();
+            
+            // Phase 6: Command System (Phase 1)
             LOGGER.info("Registering command system...");
             com.grandline.core.command.CommandRegistrar.register();
             
-            // Phase 6: Fire initialization event
+            // Phase 7: Fire initialization event
             com.grandline.core.event.EventBus.post(
                 new com.grandline.core.event.events.ModInitEvent(
                     com.grandline.core.event.events.ModInitEvent.InitPhase.COMMON));
             
-            // Phase 7: Mark as initialized
+            // Phase 8: Mark as initialized
             initialized = true;
             
             long duration = System.currentTimeMillis() - startTime;
@@ -79,6 +83,7 @@ public class GrandLineMod implements ModInitializer {
             LOGGER.info("✓ Phase 0: Foundation Complete");
             LOGGER.info("✓ Phase 1: Core Framework Active");
             LOGGER.info("✓ Phase 2: Player Data System Active");
+            LOGGER.info("✓ Phase 3: Ability Framework Active");
             
         } catch (Exception e) {
             LOGGER.error("Failed to initialize {}", MOD_NAME, e);

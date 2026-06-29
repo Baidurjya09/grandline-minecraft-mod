@@ -29,6 +29,9 @@ public class GrandLineConfig {
     // Statistics Settings (Phase 2)
     public StatisticsSettings statistics = new StatisticsSettings();
     
+    // Ability Settings (Phase 3)
+    public AbilitySettings abilities = new AbilitySettings();
+    
     /**
      * Validates the configuration values.
      * 
@@ -41,7 +44,8 @@ public class GrandLineConfig {
             && debug.validate()
             && playerData.validate()
             && leveling.validate()
-            && statistics.validate();
+            && statistics.validate()
+            && abilities.validate();
     }
     
     /**
@@ -68,6 +72,9 @@ public class GrandLineConfig {
         }
         if (!statistics.validate()) {
             statistics = new StatisticsSettings();
+        }
+        if (!abilities.validate()) {
+            abilities = new AbilitySettings();
         }
     }
     
@@ -151,5 +158,18 @@ public class GrandLineConfig {
         
         public boolean validate() {
             return true;
+        }
+    }
+
+    
+    public static class AbilitySettings {
+        public boolean enableAbilities = true;
+        public int globalCooldownTicks = 20;
+        public boolean enableClientPrediction = true;
+        public int maxActiveAbilities = 10;
+        
+        public boolean validate() {
+            return globalCooldownTicks >= 0 
+                && maxActiveAbilities > 0;
         }
     }
